@@ -1,10 +1,10 @@
 /*
-* Copyright 2016-2020, Cypress Semiconductor Corporation or a subsidiary of
-* Cypress Semiconductor Corporation. All Rights Reserved.
+* Copyright 2016-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
-* materials ("Software"), is owned by Cypress Semiconductor Corporation
-* or one of its subsidiaries ("Cypress") and is protected by and subject to
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
 * worldwide patent protection (United States and foreign),
 * United States copyright laws and international treaty provisions.
 * Therefore, you may use this Software only as provided in the license
@@ -13,7 +13,7 @@
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software
 * source code solely for use in connection with Cypress's
-* integrated circuit products. Any reproduction, modification, translation,
+* integrated circuit products.  Any reproduction, modification, translation,
 * compilation, or representation of this Software except as specified
 * above is prohibited without the express written permission of Cypress.
 *
@@ -265,7 +265,7 @@ void mesh_app_fast_power_off_execute(void)
     }
     else if (wiced_start_timer(&mesh_app_fast_power_off_timer, MESH_APP_FAST_POWER_OFF_TIMEOUT_IN_SECONDS) != WICED_SUCCESS)
     {
-        WICED_BT_TRACE("reset: init_timer failed\n");
+        WICED_BT_TRACE("reset: start_timer failed\n");
     }
     else
     {
@@ -348,7 +348,10 @@ void mesh_app_attention(uint8_t element_idx, uint8_t time)
         led_control_set_brighness_level(last_known_brightness);
         return;
     }
-    wiced_start_timer(&attention_timer, 1);
+    if (wiced_start_timer(&attention_timer, 1) != WICED_SUCCESS)
+    {
+        WICED_BT_TRACE("reset: start_timer failed\n");
+    }
     attention_time = time;
     attention_brightness = (last_known_brightness != 0) ? 0 : 100;
     led_control_set_brighness_level(attention_brightness);
