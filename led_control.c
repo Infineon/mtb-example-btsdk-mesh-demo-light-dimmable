@@ -61,7 +61,7 @@
 /******************************************************************************
  *                                Variables Definitions
  ******************************************************************************/
-#if ( !defined(CYW20719B1) && !defined(CYW20819A1) && !defined(CYW20735B1) && !defined(CYW20835B1) && !defined(CYW20719B2) && !defined(CYW20721B2))
+#if ( !defined(CYW20719B1) && !defined(CYW20819A1) && !defined(CYW20835B1) && !defined(CYW20719B2) && !defined(CYW20721B2))
 #define WICED_GPIO_PIN_LED_2 1
 #endif
 wiced_bt_gpio_numbers_t led_pin = WICED_GPIO_PIN_LED_2;
@@ -91,7 +91,7 @@ void led_control_init(uint8_t control_type)
         wiced_hal_pwm_configure_pin(led_pin, PWM_CHANNEL);
 #endif
 
-#if ( defined(CYW20819A1) || defined(CYW20735B1) || defined(CYW20835B1) || defined(CYW20719B2) || defined(CYW20721B2) )
+#if ( defined(CYW20819A1) || defined(CYW20835B1) || defined(CYW20719B2) || defined(CYW20721B2) )
         wiced_hal_gpio_select_function(WICED_GPIO_PIN_LED_2, WICED_PWM0);
 #endif
 

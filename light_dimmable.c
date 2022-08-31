@@ -35,7 +35,7 @@
  *
  * This demo application shows a simple implementation of a dimmable light.
  * The app is based on the snip/mesh/mesh_light_lightness sample which
- * implements BLE Mesh Light Lightness Server model. Because Light Lightness
+ * implements Bluetooth LE Mesh Light Lightness Server model. Because Light Lightness
  * Server model extends Generic OnOff and Generic Level, the dimmable
  * light can be controlled by a Switch (Generic OnOff Client), a Dimmer
  * (Generic Level Client), or by an application which implements Light
@@ -97,7 +97,6 @@ extern wiced_bt_cfg_settings_t wiced_bt_cfg_settings;
  ******************************************************/
 #define MESH_PID                0x311F
 #define MESH_VID                0x0002
-#define MESH_CACHE_REPLAY_SIZE  0x0008
 
 /******************************************************
  *          Structures
@@ -109,7 +108,7 @@ extern wiced_bt_cfg_settings_t wiced_bt_cfg_settings;
 static void mesh_app_init(wiced_bool_t is_provisioned);
 static void mesh_app_attention(uint8_t element_idx, uint8_t time);
 static void mesh_app_message_handler(uint8_t element_idx, uint16_t event, void *p_data);
-static void mesh_app_process_set_level(uint8_t element_idx, wiced_bt_mesh_light_lightness_status_t *p_data);
+static void mesh_app_process_level_status(uint8_t element_idx, wiced_bt_mesh_light_lightness_status_t *p_data);
 
 /******************************************************
  *          Variables Definitions
@@ -167,7 +166,6 @@ wiced_bt_mesh_core_config_t  mesh_config =
     .company_id         = MESH_COMPANY_ID_CYPRESS,                  // Company identifier assigned by the Bluetooth SIG
     .product_id         = MESH_PID,                                 // Vendor-assigned product identifier
     .vendor_id          = MESH_VID,                                 // Vendor-assigned product version identifier
-    .replay_cache_size  = MESH_CACHE_REPLAY_SIZE,                   // Number of replay protection entries, i.e. maximum number of mesh devices that can send application messages to this device.
     .features           = WICED_BT_MESH_CORE_FEATURE_BIT_FRIEND | WICED_BT_MESH_CORE_FEATURE_BIT_RELAY | WICED_BT_MESH_CORE_FEATURE_BIT_GATT_PROXY_SERVER,   // In Friend mode support friend, relay
     .friend_cfg         =                                           // Configuration of the Friend Feature(Receive Window in Ms, messages cache)
     {
@@ -374,8 +372,8 @@ void mesh_app_message_handler(uint8_t element_idx, uint16_t event, void *p_data)
 {
     switch (event)
     {
-    case WICED_BT_MESH_LIGHT_LIGHTNESS_SET:
-        mesh_app_process_set_level(element_idx, (wiced_bt_mesh_light_lightness_status_t *)p_data);
+    case WICED_BT_MESH_LIGHT_LIGHTNESS_STATUS:
+        mesh_app_process_level_status(element_idx, (wiced_bt_mesh_light_lightness_status_t *)p_data);
         break;
 
     default:
@@ -387,7 +385,7 @@ void mesh_app_message_handler(uint8_t element_idx, uint16_t event, void *p_data)
 /*
  * Command from the level client is received to set the new level
  */
-void mesh_app_process_set_level(uint8_t element_idx, wiced_bt_mesh_light_lightness_status_t *p_status)
+void mesh_app_process_level_status(uint8_t element_idx, wiced_bt_mesh_light_lightness_status_t *p_status)
 {
     WICED_BT_TRACE("mesh light srv set level element:%d present actual:%d linear:%d remaining_time:%d\n",
         element_idx, p_status->lightness_actual_present, p_status->lightness_linear_present, p_status->remaining_time);
