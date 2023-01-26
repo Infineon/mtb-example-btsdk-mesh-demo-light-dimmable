@@ -1,5 +1,5 @@
 #
-# Copyright 2016-2022, Cypress Semiconductor Corporation (an Infineon company) or
+# Copyright 2016-2023, Cypress Semiconductor Corporation (an Infineon company) or
 # an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 #
 # This software, including source code, documentation and related
@@ -44,10 +44,11 @@ CONFIG=Debug
 VERBOSE=
 
 # default target
-TARGET=CYW920819EVB-02
+TARGET=CYW920819M2EVB-01
 
 SUPPORTED_TARGETS = \
   CYW920819EVB-02 \
+  CYW920819M2EVB-01 \
   CYBT-213043-MESH \
   CYBT-243053-EVAL \
   CYBT-253059-EVAL \
